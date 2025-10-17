@@ -1,5 +1,6 @@
 import dagger
 from dagger import dag, function, object_type
+import random
 
 
 @object_type
@@ -48,7 +49,9 @@ class Book:
     async def publish(self, source: dagger.Directory) -> str:
         await self.test(source)
 
-        return await self.env(source).publish(f"ttl.sh/my-fastapi-app-smartwatt")
+        return await self.env(source).publish(
+            f"ttl.sh/my-fastapi-app-{random.randint(1000,9999)}:latest"
+        )
 
     @function
     def container_echo(self, string_arg: str) -> dagger.Container:
